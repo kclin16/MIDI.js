@@ -20,6 +20,9 @@ if (typeof MIDI === 'undefined') MIDI = {};
 MIDI.Soundfont = MIDI.Soundfont || {};
 MIDI.Player = MIDI.Player || {};
 
+// Deal with it. Everything else is declared with var.
+var no_content_header = false;
+
 (function(root) { 'use strict';
 
 	root.DEBUG = true;
@@ -51,9 +54,9 @@ MIDI.Player = MIDI.Player || {};
 			/// use the most appropriate plugin if not specified
 			if (supports[opts.api]) {
 				api = opts.api;
-			} else if (supports[hash.substr(1)]) {
-				api = hash.substr(1);
-			} else if (supports.webmidi) {
+			} else if (supports[hash.substring(1)]) {
+				api = hash.substring(1);
+			} else if (navigator.requestMIDIAccess) {
 				api = 'webmidi';
 			} else if (window.AudioContext) { // Chrome
 				api = 'webaudio';
@@ -142,6 +145,11 @@ MIDI.Player = MIDI.Player || {};
 				onprogress && onprogress('load', 1.0);
 				root[context].connect(opts);
 			}
+			// This is if onprogress doesn't work because the server 
+			// didn't provide a Content-Length header or something.
+			else if(no_content_header) {
+				onprogress && onprogress('load', ((length - pending) / length));
+			}
 		};
 		///
 		for (var i = 0; i < length; i ++) {
@@ -169,6 +177,7 @@ MIDI.Player = MIDI.Player || {};
 				onerror: onerror,
 				onprogress: onprogress,
 				onsuccess: function(event, responseText) {
+					console.log(soundfontPath);
 					var script = document.createElement('script');
 					script.language = 'javascript';
 					script.type = 'text/javascript';

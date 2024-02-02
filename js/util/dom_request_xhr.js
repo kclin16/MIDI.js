@@ -96,6 +96,8 @@ if (typeof MIDI === 'undefined') MIDI = {};
 						if (isFinite(rawBytes)) {
 							xhr.totalBytes = totalBytes = rawBytes;
 						} else {
+							// No Content-Length :(
+							no_content_header = true;
 							return;
 						}
 					}

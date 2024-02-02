@@ -72,6 +72,9 @@ function Replayer(midiFile, timeWarp, eventProcessor, bpm) {
 	//
 	function processEvents() {
 		function processNext() {
+			// if(midiEvent.event.subtype === "programChange"){
+			// 	console.log(`${midiEvent.event.deltaTime} || ${midiEvent.event.channel+1} set to ${midiEvent.event.programNumber+1}`);
+			// }
 		    if (!bpmOverride && midiEvent.event.type == "meta" && midiEvent.event.subtype == "setTempo" ) {
 				// tempo change events can occur anywhere in the middle and affect events that follow
 				beatsPerMinute = 60000000 / midiEvent.event.microsecondsPerBeat;

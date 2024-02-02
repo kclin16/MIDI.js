@@ -173,7 +173,7 @@ function MidiFile(data) {
 					return event;
 				case 0x0c:
 					event.subtype = 'programChange';
-					event.programNumber = param1;
+					event.programNumber = event.channel === 9 ? -1 : param1;
 					return event;
 				case 0x0d:
 					event.subtype = 'channelAftertouch';

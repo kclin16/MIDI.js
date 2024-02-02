@@ -3,7 +3,7 @@ function Stream(str) {
 	var position = 0;
 	
 	function read(length) {
-		var result = str.substr(position, length);
+		var result = str.substring(position, position+length);
 		position += length;
 		return result;
 	}

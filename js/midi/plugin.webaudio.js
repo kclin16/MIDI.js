@@ -20,7 +20,12 @@
 		///
 		midi.audioBuffers = audioBuffers;
 		midi.send = function(data, delay) { };
-		midi.setController = function(channelId, type, value, delay) { };
+		midi.setController = function(channelId, type, value, delay) {
+			switch(type){
+				case 0x07:
+					root.channels[channelId].volume = value;
+			}
+		};
 
 		midi.setVolume = function(channelId, volume, delay) {
 			if (delay) {
@@ -41,6 +46,7 @@
 // 			} else {
 				var channel = root.channels[channelId];
 				channel.instrument = program;
+				//console.log(`Set channel ${channelId} to ${program}`);
 // 			}
 		};
 
@@ -92,7 +98,7 @@
 			}
 
 			/// add gain + pitchShift
-			var gain = (velocity / 127) * (masterVolume / 127) * 2 - 1;
+			var gain = (velocity / 127) * (masterVolume / 127) * (channel.volume / 127) * 2 - 1;
 			source.connect(ctx.destination);
 			source.playbackRate.value = 1; // pitch shift 
 			source.gainNode = ctx.createGain(); // gain

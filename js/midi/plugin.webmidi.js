@@ -75,6 +75,7 @@
 		};
 		///
 		navigator.requestMIDIAccess().then(function(access) {
+			console.log(access);
 			plugin = access;
 			var pluginOutputs = plugin.outputs;
 			if (typeof pluginOutputs == 'function') { // Chrome pre-43
