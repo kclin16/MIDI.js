@@ -372,7 +372,7 @@ var startAudio = function(currentTime, fromCache, onsuccess) {
 
 var stopAudio = function() {
 	midi.playing = false;
-	midi.restart += (getContext().currentTime - startTime) * 1000;;
+	midi.restart += (getContext().currentTime - startTime) * 1000;
 	// stop the audio, and intervals
 	while (eventQueue.length) {
 		let o = eventQueue.pop();
